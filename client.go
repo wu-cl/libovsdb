@@ -232,6 +232,7 @@ func getTableUpdatesFromRawUnmarshal(raw map[string]map[string]RowUpdate) TableU
 
 func clearConnection(c *rpc2.Client) {
 	connections[c] = nil
+	delete(connections, c)
 }
 
 func handleDisconnectNotification(c *rpc2.Client) {
