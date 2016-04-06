@@ -1,10 +1,11 @@
 package jsonrpc
 
 import (
-	"github.com/socketplane/libovsdb/Godeps/_workspace/src/github.com/cenkalti/rpc2"
 	"net"
 	"testing"
 	"time"
+
+	"github.com/cenkalti/rpc2"
 )
 
 const (
