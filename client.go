@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"log"
-	"net"
-
 	"github.com/cenkalti/rpc2"
 	"github.com/cenkalti/rpc2/jsonrpc"
+	"log"
+	"net"
+	"sync"
 )
 
 type OvsdbClient struct {
@@ -21,7 +21,7 @@ func newOvsdbClient(c *rpc2.Client) *OvsdbClient {
 	ovs := &OvsdbClient{rpcClient: c, Schema: make(map[string]DatabaseSchema)}
 	connectionsMutex.Lock()
 	connections[c] = ovs
- 	connectionsMutex.Unlock()
+	connectionsMutex.Unlock()
 	return ovs
 }
 
@@ -29,6 +29,7 @@ func newOvsdbClient(c *rpc2.Client) *OvsdbClient {
 // Unfortunately rpc2 package acts wierd with a receiver scoped method and needs some investigation.
 var connections map[*rpc2.Client]*OvsdbClient = make(map[*rpc2.Client]*OvsdbClient)
 var connectionsMutex sync.Mutex
+
 const DEFAULT_ADDR = "127.0.0.1"
 const DEFAULT_PORT = 6640
 const DEFAULT_SOCK = "/var/run/openvswitch/db.sock"
@@ -115,7 +116,7 @@ func echo(client *rpc2.Client, args []interface{}, reply *[]interface{}) error {
 			handler.Echo(nil)
 		}
 	}
-        connectionsMutex.Unlock()
+	connectionsMutex.Unlock()
 	return nil
 }
 
