@@ -129,7 +129,7 @@ func update(client *rpc2.Client, params []interface{}, reply *interface{}) error
 		return errors.New("Invalid Update message")
 	}
 	// Ignore params[0] as we dont use the <json-value> currently for comparison
-
+	fmt.Printf("lib_ovsdb: #update %s", params)
 	raw, ok := params[1].(map[string]interface{})
 	if !ok {
 		return errors.New("Invalid Update message")
